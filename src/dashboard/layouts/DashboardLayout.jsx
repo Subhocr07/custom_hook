@@ -11,17 +11,21 @@ export default function DashboardLayout({
   stats,
   loading,
   error,
-  page,
-  setPage,
+  fetchNextPage,
+  hasNextPage,
 }) {
-  if (loading) return <p>Loading dashboard...</p>;
-  if (error) return <p>Something went wrong</p>;
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error...</p>;
 
   return (
     <>
       <StatsCard stats={stats} />
-      <SalesChart />
-      <UserTable users={users} page={page} setPage={setPage} />
+
+      <UserTable
+        users={users}
+        fetchNextPage={fetchNextPage}
+        hasNextPage={hasNextPage}
+      />
     </>
   );
 }
