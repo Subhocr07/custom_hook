@@ -1,24 +1,27 @@
-import React from "react";
+// UserTable.jsx
 
-const UserTable = React.memo(({ users }) => {
+const UserTable = ({ users, page, setPage }) => {
   return (
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Email</th>
-        </tr>
-      </thead>
-      <tbody>
-        {users.map((user) => (
-          <tr key={user.id}>
-            <td>{user.name}</td>
-            <td>{user.email}</td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
+    <div>
+      <table>
+        <tbody>
+          {users?.map((user) => (
+            <tr key={user.id}>
+              <td>{user.name}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+      <button onClick={() => setPage((p) => p - 1)} disabled={page === 1}>
+        Prev
+      </button>
+
+      <span>{page}</span>
+
+      <button onClick={() => setPage((p) => p + 1)}>Next</button>
+    </div>
   );
-});
+};
 
 export default UserTable;

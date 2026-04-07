@@ -1,12 +1,20 @@
-import React from "react";
+// components/widgets/SalesChart.jsx
 
-const SalesChart = React.memo(({ data }) => {
+import { LineChart, Line, XAxis, YAxis, Tooltip } from "recharts";
+
+const data = [
+  { name: "Jan", sales: 400 },
+  { name: "Feb", sales: 800 },
+  { name: "Mar", sales: 600 },
+];
+
+export default function SalesChart() {
   return (
-    <div className="card">
-      <h3>Sales Chart</h3>
-      <pre>{JSON.stringify(data)}</pre>
-    </div>
+    <LineChart width={400} height={300} data={data}>
+      <XAxis dataKey="name" />
+      <YAxis />
+      <Tooltip />
+      <Line type="monotone" dataKey="sales" />
+    </LineChart>
   );
-});
-
-export default SalesChart;
+}
