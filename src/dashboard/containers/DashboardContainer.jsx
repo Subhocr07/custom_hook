@@ -1,30 +1,31 @@
-// DashboardContainer.jsx
-
-import { useState } from "react";
-import { useUsers } from "../hooks/useUsers";
+import { useInfiniteUsers } from "../hooks/useInfiniteUsers";
 import { useStats } from "../hooks/useStats";
 import DashboardLayout from "../layouts/DashboardLayout";
 
 export default function DashboardContainer() {
-  const [page, setPage] = useState(1);
-  const limit = 5;
+  const { data: stats, isLoading: statsLoading } = useStats();
 
   const {
-    data: users,
-    isLoading: usersLoading,
-    isError: usersError,
-  } = useUsers({ page, limit });
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isLoading,
+    isError,
+  } = useInfiniteUsers();
 
-  const { data: stats, isLoading: statsLoading } = useStats();
+  // ✅ flatten pages
+  const users = data?.pages.flat() || [];
 
   return (
     <DashboardLayout
-      users={users}
+      users={users} // ✅ FIXED
       stats={stats}
-      loading={usersLoading || statsLoading}
-      error={usersError}
-      page={page}
-      setPage={setPage}
+      loading={isLoading || statsLoading}
+      error={isError}
+      fetchNextPage={fetchNextPage} // ✅ REQUIRED
+      hasNextPage={hasNextPage} // ✅ REQUIRED
+      isFetchingNextPage={isFetchingNextPage}
     />
   );
 }
